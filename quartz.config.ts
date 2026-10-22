@@ -21,30 +21,30 @@ const config: QuartzConfig = {
       fontOrigin: "local",
       cdnCaching: false,
       typography: {
-        header: "system-ui",
-        body: "system-ui",
+        header: "Microsoft YaHei",
+        body: "Microsoft YaHei",
         code: "Consolas",
       },
       colors: {
         lightMode: {
-          light: "#f7f8f5",
-          lightgray: "#e0e5dd",
-          gray: "#9aa59b",
-          darkgray: "#526057",
-          dark: "#1e3028",
-          secondary: "#28745b",
-          tertiary: "#439a77",
-          highlight: "rgba(40, 116, 91, 0.08)",
-          textHighlight: "#e2efc3",
+          light: "#fafbf9",
+          lightgray: "#e4e8e4",
+          gray: "#858585",
+          darkgray: "#666666",
+          dark: "#202020",
+          secondary: "#32655d",
+          tertiary: "#55867c",
+          highlight: "rgba(50, 101, 93, 0.06)",
+          textHighlight: "#dcebe2",
         },
         darkMode: {
-          light: "#14201b",
-          lightgray: "#2a3b32",
-          gray: "#849b8d",
-          darkgray: "#bdcec3",
-          dark: "#e4eee7",
-          secondary: "#8cc7a5",
-          tertiary: "#b1d9ab",
+          light: "#1d1d1d",
+          lightgray: "#343434",
+          gray: "#9a9a9a",
+          darkgray: "#c6c6c6",
+          dark: "#ededed",
+          secondary: "#9ac2b5",
+          tertiary: "#bad8ce",
           highlight: "rgba(140, 199, 165, 0.1)",
           textHighlight: "#395e41",
         },
@@ -92,3 +92,4 @@ const config: QuartzConfig = {
 }
 
 export default config
+

@@ -1,6 +1,6 @@
 # MrChenGF 的技术博客
 
-线上地址：https://ffcodelab.github.io/MrChenGF.github.io/
+网站地址：https://ffcodelab.github.io/MrChenGF.github.io/
 
 基于 Quartz 4.5.2，保留完整源码与 MIT 许可。上游基线：`d25a6eabf96751ffca56f8a8139272def7a65041`。
 

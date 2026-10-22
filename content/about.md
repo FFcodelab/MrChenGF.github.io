@@ -18,6 +18,6 @@ description: 一个嵌入式软件工程师的个人技术记录。
 
 文章会随着理解更新。结论应当能回到源码、实验或明确的资料依据；没有验证的想法会与已经确认的事实区分。
 
-本站目前由 GitHub Pages 托管，基于 Quartz 构建。内容文件和网站配置保存在[博客仓库](https://github.com/FFcodelab/MrChenGF.github.io)。
+本站基于 Quartz 构建，使用 GitHub Pages 托管。内容文件和网站配置保存在[博客仓库](https://github.com/FFcodelab/MrChenGF.github.io)。
 
 如果你也是这个网站的作者，可以从[写作与发布指南](guides/publishing.md)开始添加自己的文章。

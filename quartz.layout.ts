@@ -3,33 +3,28 @@ import * as Component from "./quartz/components"
 import SiteIdentity from "./quartz/components/SiteIdentity"
 import SiteNavigation from "./quartz/components/SiteNavigation"
 import HomePage from "./quartz/components/HomePage"
+import ArticleArchive from "./quartz/components/ArticleArchive"
+import { QuartzComponentProps } from "./quartz/components/types"
 
-const isArticle = (page: { fileData: { slug?: string } }) => page.fileData.slug !== "index"
-const navigation = [
-  SiteIdentity(),
-  Component.Flex({ components: [
-    { Component: Component.Search(), grow: true },
-    { Component: Component.Darkmode() },
-  ] }),
-  SiteNavigation(),
-  Component.ConditionalRender({ component: Component.DesktopOnly(Component.Explorer()), condition: isArticle }),
-]
+const isContent = (page: QuartzComponentProps) => page.fileData.slug !== "index"
+const isArticle = (page: QuartzComponentProps) => page.fileData.frontmatter?.kind === "article" || page.fileData.slug === "guides/publishing"
 export const sharedPageComponents: SharedLayout = {
-  head: Component.Head(), header: [], afterBody: [],
+  head: Component.Head(),
+  header: [SiteIdentity(), Component.Darkmode(), SiteNavigation(), Component.Search()],
+  afterBody: [],
   footer: Component.Footer({ links: { "文章源码": "https://github.com/FFcodelab/MrChenGF.github.io", "RSS 订阅": "https://ffcodelab.github.io/MrChenGF.github.io/index.xml" } }),
 }
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({ component: HomePage(), condition: page => page.fileData.slug === "index" }),
-    ...[Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta(), Component.TagList()].map(component => Component.ConditionalRender({ component, condition: isArticle })),
+    Component.ConditionalRender({ component: Component.ArticleTitle(), condition: isContent }),
+    Component.ConditionalRender({ component: Component.ContentMeta({ showComma: false }), condition: isArticle }),
+    Component.ConditionalRender({ component: Component.TagList(), condition: isArticle }),
+    Component.ConditionalRender({ component: Component.TableOfContents(), condition: isArticle }),
+    Component.ConditionalRender({ component: ArticleArchive(), condition: page => page.fileData.slug === "archives" }),
   ],
-  left: navigation,
-  right: [
-    Component.ConditionalRender({ component: Component.DesktopOnly(Component.TableOfContents()), condition: isArticle }),
-    Component.ConditionalRender({ component: Component.Backlinks(), condition: isArticle }),
-  ],
+  left: [], right: [],
 }
 export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle()],
-  left: navigation, right: [],
+  beforeBody: [Component.ArticleTitle()], left: [], right: [],
 }
