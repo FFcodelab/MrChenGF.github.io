@@ -1,7 +1,7 @@
 const $ = id => document.getElementById(id)
 const token = document.querySelector('meta[name="publisher-token"]').content
 const storageKey = "mrchengf.publisher.draft"
-const state = { files: [], sourcePath: "", expectedSha: null, notes: [], connected: false, busy: false, job: null, requestId: null }
+const state = { files: [], sourcePath: "", expectedSha: null, notes: [], connected: false, busy: false, job: null, requestId: null, tagsTouched: false }
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 async function api(method, route, body) {
   const response = await fetch(route, { method, headers: method === "GET" ? {} : { "Content-Type": "application/json", "X-Publisher-Token": token }, body: body === undefined ? undefined : JSON.stringify(body) })
@@ -10,7 +10,7 @@ async function api(method, route, body) {
   return data
 }
 function message(text = "") { $("globalMessage").hidden = !text; $("globalMessage").textContent = text }
-function setBusy(busy) { state.busy = busy; $("publishButton").disabled = busy || !state.connected; $("previewButton").disabled = busy; $("existing").disabled = busy; $("publishButton").firstChild.textContent = busy ? "正在发布… " : ($("existing").value ? "更新文章 " : "发布文章 ") }
+function setBusy(busy) { state.busy = busy; $("publishButton").disabled = busy || !state.connected; $("previewButton").disabled = busy; for (const field of document.querySelectorAll(".editor-panel input, .editor-panel select, .editor-panel textarea")) field.disabled = busy; if (!busy) { $("section").disabled = !!$("existing").value; $("slug").disabled = !!$("existing").value } $("publishButton").firstChild.textContent = busy ? "正在发布… " : ($("existing").value ? "更新文章 " : "发布文章 ") }
 function saveDraft() {
   const draft = Object.fromEntries(["title", "section", "tags", "markdown", "description", "slug"].map(id => [id, $(id).value]))
   draft.sourcePath = state.sourcePath
@@ -18,6 +18,7 @@ function saveDraft() {
   $("wordCount").textContent = $("markdown").value.length + " 字"
 }
 for (const id of ["title", "section", "tags", "markdown", "description", "slug"]) $(id).addEventListener("input", saveDraft)
+$("tags").addEventListener("input", () => { state.tagsTouched = true })
 try {
   const draft = JSON.parse(localStorage.getItem(storageKey) || "null")
   if (draft) { for (const id of ["title", "section", "tags", "markdown", "description", "slug"]) if (typeof draft[id] === "string") $(id).value = draft[id]; state.sourcePath = draft.sourcePath || ""; if (state.sourcePath) $("sourceInfo").textContent = "已恢复未完成的正文；如有本地图片，请再选择一次导出文件夹。"; $("wordCount").textContent = $("markdown").value.length + " 字" }
@@ -57,7 +58,7 @@ async function payload() {
   if (!markdown.trim()) throw new Error("请先选择文件或粘贴 Markdown 正文")
   const files = state.files.filter(file => !/\.(md|markdown)$/i.test(file.name) && (markdown.includes(file.name) || markdown.includes(encodeURIComponent(file.name))))
   if (files.reduce((total, file) => total + file.size, 0) > 40 * 1024 * 1024) throw new Error("本篇文章的附件合计请控制在 40 MB 内")
-  return { markdown, sourcePath: state.sourcePath || "pasted.md", title: $("title").value, section: $("section").value, tags: $("existing").value ? $("tags").value : ($("tags").value || undefined), description: $("description").value, slug: $("slug").value, targetPath: $("existing").value || undefined, expectedSha: state.expectedSha, assets: await Promise.all(files.map(async file => ({ path: filePath(file), base64: await toBase64(file) }))) }
+  return { markdown, sourcePath: state.sourcePath || "pasted.md", title: $("title").value, section: $("section").value, tags: state.tagsTouched ? $("tags").value : ($("tags").value || undefined), description: $("description").value, slug: $("slug").value, targetPath: $("existing").value || undefined, expectedSha: state.expectedSha, assets: await Promise.all(files.map(async file => ({ path: filePath(file), base64: await toBase64(file) }))) }
 }
 function renderHistory(items) {
   if (!items.length) return
@@ -83,7 +84,7 @@ async function connect(refresh = false) {
     if (selected) state.expectedSha = result.notes.find(note => note.path === selected)?.sha || null
     $("connection").textContent = "GitHub 已连接 · 原博客"
     renderHistory(result.history); setBusy(state.busy)
-  } catch (error) { state.connected = false; $("connection").textContent = "GitHub 尚未连接"; setBusy(false); message(error.message) }
+  } catch (error) { state.connected = false; $("connection").textContent = "GitHub 尚未连接"; setBusy(state.busy); message(error.message) }
 }
 async function selectExisting(force = false) {
   const target = $("existing").value
@@ -135,5 +136,6 @@ $("publishButton").addEventListener("click", async () => {
 })
 $("checkButton").addEventListener("click", async () => { try { showJob(await api("POST", "/api/check", { id: state.job.id })); await connect(true) } catch (error) { message(error.message) } })
 $("newButton").addEventListener("click", () => { for (const id of ["title", "tags", "markdown", "description", "slug"]) $(id).value = ""; $("existing").value = ""; $("section").value = "notes"; state.expectedSha = null; state.files = []; state.sourcePath = ""; $("section").disabled = false; $("slug").disabled = false; $("loadOriginal").hidden = true; $("previewContent").replaceChildren(); $("previewTitle").hidden = true; $("previewPlaceholder").hidden = false; $("jobPanel").hidden = true; localStorage.removeItem(storageKey); $("markdown").focus(); setBusy(false); saveDraft() })
+$("newButton").addEventListener("click", () => { state.tagsTouched = false })
 $("closeButton").addEventListener("click", async () => { try { await api("POST", "/api/shutdown", {}); $("connection").textContent = "发布助手已关闭"; state.connected = false; setBusy(false); message("助手已关闭，下次双击“发布笔记.cmd”即可重新打开。") } catch (error) { message(error.message) } })
 await connect()
