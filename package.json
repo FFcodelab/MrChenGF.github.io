@@ -24,7 +24,9 @@
     "import-note": "node scripts/import-note.mjs",
     "validate-content": "node scripts/validate-content.mjs",
     "verify-site": "node scripts/verify-site.mjs",
-    "test:import": "node --test scripts/import-note.test.mjs"
+    "test:import": "node --test scripts/import-note.test.mjs",
+    "publisher": "node scripts/publisher/server.mjs",
+    "test:publisher": "node --test scripts/publisher/publisher.test.mjs"
   },
   "engines": {
     "npm": ">=10.9.2",

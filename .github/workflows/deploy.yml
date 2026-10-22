@@ -27,6 +27,7 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run test:import
+      - run: npm run test:publisher
       - run: npm run validate-content
       - run: npx tsc --noEmit
       - run: npm run build

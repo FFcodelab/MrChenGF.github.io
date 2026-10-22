@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="publisher-token" content="__PUBLISHER_TOKEN__"><title>MrChenGF · 笔记发布助手</title><link rel="stylesheet" href="/style.css"><script type="module" src="/app.js"></script></head>
+<body>
+  <header><a class="brand" href="/">MrChenGF <span>发布助手</span></a><div class="connection"><span id="connection">正在连接 GitHub…</span><button id="refresh" class="text-button" type="button">刷新</button></div></header>
+  <main>
+    <section class="intro"><div class="eyebrow">从笔记到博客，少几步。</div><h1>写完，发出去。</h1><p>选择导出的文件，或者直接粘贴 Markdown。标题、日期、图片和发布交给助手。</p></section>
+    <div id="globalMessage" class="message" role="alert" hidden></div>
+    <div class="workspace">
+      <section class="editor-panel" aria-label="笔记编辑">
+        <div class="panel-top"><h2>这次发布什么</h2><label class="mode-label">发布方式<select id="existing"><option value="">新建文章</option></select></label></div>
+        <div class="import-actions"><label class="file-button">选择导出文件夹<input id="folderInput" type="file" webkitdirectory multiple></label><label class="file-button">选择 Markdown<input id="markdownInput" type="file" accept=".md,.markdown"></label><label class="file-button quiet">补充图片<input id="assetInput" type="file" accept="image/*,.pdf,.txt,.csv,.zip" multiple></label></div>
+        <p id="sourceInfo" class="helper">带图片的笔记，优先选择完整导出文件夹。也可以直接在下方粘贴 Markdown。</p>
+        <label id="sourcePicker" hidden>文件夹里的文章<select id="sourceSelect"></select></label>
+        <label>标题 <span class="optional">可留空，自动从正文识别</span><input id="title" maxlength="200" placeholder="例如：一次串口接收问题的排查记录"></label>
+        <div class="field-row"><label>栏目<select id="section"><option value="notes">学习笔记</option><option value="research">问题分析</option><option value="projects">项目实践</option><option value="journal">随记</option></select></label><label>标签 <span class="optional">可选</span><input id="tags" placeholder="如：STM32，调试"></label></div>
+        <label class="body-label">Markdown 正文<textarea id="markdown" spellcheck="false" placeholder="# 我的笔记标题&#10;&#10;把 Markdown 粘贴到这里，或选择导出的文件。"></textarea></label>
+        <div class="editor-hint"><span id="wordCount">0 字</span><span>支持粘贴截图，图片随文章一起保存。</span></div>
+        <details class="advanced"><summary>更多选项</summary><label>摘要 <span class="optional">留空时自动提取</span><textarea id="description" rows="2" placeholder="首页文章列表中显示的简短介绍"></textarea></label><label>文章地址 <span class="optional">自动生成，一般不用填写</span><input id="slug" placeholder="小写英文、数字和连字符"></label><button id="loadOriginal" type="button" class="text-button" hidden>载入所选文章的原文</button></details>
+        <div class="publish-bar"><button id="previewButton" type="button" class="secondary">预览</button><button id="publishButton" type="button" class="primary" disabled>发布文章 <span aria-hidden="true">↗</span></button></div>
+        <p class="publication-notice">点击发布后，文章和所用图片将公开到你的博客。</p>
+      </section>
+      <aside class="side-panel">
+        <section id="jobPanel" class="job-panel" aria-live="polite" hidden><div class="eyebrow" id="jobPhase">准备发布</div><h2 id="jobTitle"></h2><p id="jobMessage"></p><p id="jobWarning" class="helper" hidden></p><div class="job-actions"><a id="articleLink" target="_blank" rel="noopener noreferrer" hidden>打开文章 ↗</a><a id="runLink" target="_blank" rel="noopener noreferrer" hidden>查看构建进度</a><button id="checkButton" class="text-button" type="button" hidden>检查是否上线</button><button id="newButton" class="text-button" type="button" hidden>写下一篇</button></div></section>
+        <section class="preview-panel"><div class="panel-top"><h2>发布预览</h2><span id="previewInfo" class="helper">先写内容，再点预览</span></div><div id="previewPlaceholder" class="preview-placeholder"><span aria-hidden="true">Aa</span><p>看看标题、段落与图片的效果。</p><p>不需要手写文章属性，也不需要手动提交代码。</p></div><h3 id="previewTitle" hidden></h3><article id="previewContent"></article></section>
+        <section class="history-panel"><h2>最近发布</h2><div id="history"><p class="helper">这里会留下你的发布记录。</p></div></section>
+        <p class="local-note">本机工具 · 复用已有 GitHub 登录<br>不会读取语雀或飞书的其他笔记。</p>
+      </aside>
+    </div>
+  </main>
+  <footer><a href="https://ffcodelab.github.io/MrChenGF.github.io/" target="_blank" rel="noopener noreferrer">打开博客 ↗</a><button id="closeButton" class="text-button" type="button">关闭发布助手</button></footer>
+</body></html>
