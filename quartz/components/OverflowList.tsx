@@ -17,6 +17,7 @@ export default () => {
   const id = `list-${numLists++}`
 
   return {
+    id,
     OverflowList: (props: JSX.HTMLAttributes<HTMLUListElement>) => (
       <OverflowList {...props} id={id} />
     ),
