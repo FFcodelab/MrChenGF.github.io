@@ -20,10 +20,11 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ConditionalRender({ component: Component.ArticleTitle(), condition: isContent }),
     Component.ConditionalRender({ component: Component.ContentMeta({ showComma: false }), condition: isArticle }),
     Component.ConditionalRender({ component: Component.TagList(), condition: isArticle }),
-    Component.ConditionalRender({ component: Component.TableOfContents(), condition: isArticle }),
+    Component.ConditionalRender({ component: Component.MobileOnly(Component.TableOfContents()), condition: isArticle }),
     Component.ConditionalRender({ component: ArticleArchive(), condition: page => page.fileData.slug === "archives" }),
   ],
-  left: [], right: [],
+  left: [Component.ConditionalRender({ component: Component.TableOfContents(), condition: isArticle })],
+  right: [],
 }
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [Component.ArticleTitle()], left: [], right: [],
