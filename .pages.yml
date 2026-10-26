@@ -1,0 +1,108 @@
+# Pages CMS: visual editing for the existing Quartz content files.
+media:
+  - name: blog_images
+    label: 图片与附件
+    input: content/assets
+    output: ../assets
+    rename: random
+
+settings:
+  hide: true
+  content:
+    merge: true
+
+content:
+  - name: notes
+    label: 学习笔记
+    type: collection
+    path: content/notes
+    format: yaml-frontmatter
+    subfolders: false
+    exclude: [index.md]
+    filename: "{year}{month}{day}-{hour}{minute}{second}.md"
+    operations:
+      rename: false
+    view: &article_view
+      fields: [title, modified, draft]
+      primary: title
+      sort: [modified, title]
+      search: [title, tags]
+      default:
+        sort: modified
+        order: desc
+    fields: &article_fields
+      - name: title
+        label: 文章标题
+        type: string
+        required: true
+      - name: body
+        label: 正文
+        type: rich-text
+        required: true
+        options:
+          format: html
+          switcher: false
+          media: blog_images
+          path: content/assets/uploads
+          rename: random
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+        default: []
+      - name: modified
+        label: 更新日期
+        type: date
+        options:
+          format: yyyy-MM-dd
+      - name: draft
+        label: 暂不公开
+        type: boolean
+        default: false
+      - name: kind
+        type: string
+        hidden: true
+        default: article
+      - name: editor
+        type: string
+        hidden: true
+        default: visual-html
+
+  - name: research
+    label: 技术研究
+    type: collection
+    path: content/research
+    format: yaml-frontmatter
+    subfolders: false
+    exclude: [index.md]
+    filename: "{year}{month}{day}-{hour}{minute}{second}.md"
+    operations:
+      rename: false
+    view: *article_view
+    fields: *article_fields
+
+  - name: projects
+    label: 项目
+    type: collection
+    path: content/projects
+    format: yaml-frontmatter
+    subfolders: false
+    exclude: [index.md]
+    filename: "{year}{month}{day}-{hour}{minute}{second}.md"
+    operations:
+      rename: false
+    view: *article_view
+    fields: *article_fields
+
+  - name: journal
+    label: 随记
+    type: collection
+    path: content/journal
+    format: yaml-frontmatter
+    subfolders: false
+    exclude: [index.md]
+    filename: "{year}{month}{day}-{hour}{minute}{second}.md"
+    operations:
+      rename: false
+    view: *article_view
+    fields: *article_fields

@@ -4,11 +4,11 @@
 
 基于 Quartz 4.5.2，保留完整源码与 MIT 许可。上游基线：`d25a6eabf96751ffca56f8a8139272def7a65041`。
 
-## 网页修改与发布（推荐）
+## 可视化编辑与发布（推荐）
 
-打开博客中的文章，点击底部的 **编辑这篇文章**，登录有仓库写入权限的 GitHub 账号，修改正文并预览，然后点击 **Commit changes（提交更改）**，提交到 `main`。GitHub Actions 会自动更新网站，不需要运行本机脚本。
+打开 [文章管理后台](https://app.pagescms.org/FFcodelab/MrChenGF.github.io/main/collection/notes)，或在博客文章底部点击 **编辑这篇文章**。正文默认使用可视化编辑器，无需编写 Markdown；保存后 GitHub Actions 会自动更新网站，不需要运行本机脚本。
 
-网站页脚的 **管理文章** 可以打开全部内容文件；**发布指南** 中有完整操作步骤。
+第一次使用时，在 Pages CMS 登录 GitHub，并安装其 GitHub App，仓库只选择 `MrChenGF.github.io`。后台配置已经保存在仓库根目录 `.pages.yml`，无需自己填写。网站页脚的 **管理文章** 可随时返回后台；**发布指南** 中有操作步骤。
 
 ## 本机发布助手（备用）
 

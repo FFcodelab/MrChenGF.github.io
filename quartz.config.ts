@@ -1,5 +1,6 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
+import { VisualHtml } from "./quartz/plugins/transformers/visualHtml"
 
 /**
  * Quartz 4 Configuration
@@ -53,6 +54,7 @@ const config: QuartzConfig = {
   },
   plugins: {
     transformers: [
+      VisualHtml(),
       Plugin.FrontMatter(),
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "git", "filesystem"],
