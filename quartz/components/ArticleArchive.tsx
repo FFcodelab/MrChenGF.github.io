@@ -8,7 +8,7 @@ export default (() => {
       .sort((a, b) => (b.dates?.modified?.getTime() ?? 0) - (a.dates?.modified?.getTime() ?? 0))
     const years = [...new Set(notes.map(note => getDate(cfg, note)?.getFullYear().toString() ?? "未标注日期"))]
     return <section class="article-archive" aria-label="文章归档">
-      <p class="archive-count">共 {notes.length} 篇记录，持续更新。</p>
+      <p class="archive-count">共 {notes.length} 篇文章</p>
       {years.map(year => <section class="archive-year">
         <h2>{year}</h2>
         <div class="archive-list">{notes.filter(note => (getDate(cfg, note)?.getFullYear().toString() ?? "未标注日期") === year).map(note => {

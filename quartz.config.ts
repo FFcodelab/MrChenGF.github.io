@@ -9,7 +9,7 @@ import * as Plugin from "./quartz/plugins"
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "MrChenGF",
-    pageTitleSuffix: " · 嵌入式技术笔记",
+    pageTitleSuffix: " · 嵌入式技术博客",
     enableSPA: true,
     enablePopovers: false,
     analytics: null,

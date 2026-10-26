@@ -13,7 +13,7 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [SiteIdentity(), SiteNavigation(), Component.Search(), Component.Darkmode()],
   afterBody: [Component.ConditionalRender({ component: ArticleNavigation(), condition: page => page.fileData.frontmatter?.kind === "article" })],
-  footer: Component.Footer({ links: { "发布指南": "https://ffcodelab.github.io/MrChenGF.github.io/guides/publishing", "源码": "https://github.com/FFcodelab/MrChenGF.github.io", "RSS": "https://ffcodelab.github.io/MrChenGF.github.io/index.xml" } }),
+  footer: Component.Footer({ links: { "管理文章": "https://github.com/FFcodelab/MrChenGF.github.io/tree/main/content", "发布指南": "https://ffcodelab.github.io/MrChenGF.github.io/guides/publishing", "源码": "https://github.com/FFcodelab/MrChenGF.github.io", "RSS": "https://ffcodelab.github.io/MrChenGF.github.io/index.xml" } }),
 }
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
